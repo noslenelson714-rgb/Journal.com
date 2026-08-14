@@ -515,7 +515,6 @@
     </style>
 </head>
 <body>
-    <!-- ─── LOCK SCREEN ─── -->
     <div id="lockScreen">
         <div class="lock-box">
             <span class="lock-icon">🔒</span>
@@ -527,7 +526,6 @@
         </div>
     </div>
 
-    <!-- ─── JOURNAL CONTENT ─── -->
     <div class="blog-card" id="journalContent">
         <div class="blog-header">
             <h1>journal</h1>
@@ -537,7 +535,6 @@
             <div class="search-wrapper">
                 <span class="label">🔍</span>
                 <input type="text" class="search-input" id="dateSearchInput" placeholder="Search by date (YYYY-MM-DD), month (YYYY-MM), or year (YYYY)" value="2026-08-15">
-
                 <div class="calendar-wrapper">
                     <button class="calendar-toggle" id="calendarToggle">📅</button>
                     <div class="calendar-popup" id="calendarPopup">
@@ -546,9 +543,7 @@
                             <span class="month-year" id="monthYearDisplay">August 2026</span>
                             <button id="nextMonth">›</button>
                         </div>
-                        <div class="calendar-grid" id="calendarGrid">
-                            <!-- filled by JS -->
-                        </div>
+                        <div class="calendar-grid" id="calendarGrid"></div>
                         <div class="quick-links">
                             <button data-view="today">Today</button>
                             <button data-view="month">This month</button>
@@ -556,7 +551,6 @@
                         </div>
                     </div>
                 </div>
-
                 <button class="search-btn" id="searchButton">search</button>
                 <button class="clear-btn" id="clearButton">show all</button>
             </div>
@@ -571,21 +565,17 @@
 
     <script>
         (function() {
-            // ─── PASSWORD ───
             const CORRECT_PASSWORD = 'skbk123kskgjei291018asf';
 
-            // ─── DOM refs ───
             const lockScreen = document.getElementById('lockScreen');
             const passwordInput = document.getElementById('passwordInput');
             const unlockBtn = document.getElementById('unlockBtn');
             const errorMsg = document.getElementById('errorMsg');
 
-            // ─── DATA: single entry for August 15, 2026 ───
             const entries = {
                 '2026-08-15': `Nothing yet!`
             };
 
-            // ─── DOM refs for journal ───
             const searchInput = document.getElementById('dateSearchInput');
             const searchBtn = document.getElementById('searchButton');
             const clearBtn = document.getElementById('clearButton');
@@ -600,7 +590,6 @@
             let currentViewDate = new Date(2026, 7, 1);
             let selectedDate = '2026-08-15';
 
-            // ─── Unlock function ───
             function unlock() {
                 const input = passwordInput.value;
                 if (input === CORRECT_PASSWORD) {
@@ -616,7 +605,6 @@
                 }
             }
 
-            // ─── Lock screen events ───
             unlockBtn.addEventListener('click', unlock);
 
             passwordInput.addEventListener('keydown', function(e) {
@@ -626,7 +614,6 @@
                 }
             });
 
-            // ─── render functions ───
             function renderEntries(query) {
                 if (!query || query.trim() === '') {
                     showAllEntries();
@@ -688,7 +675,6 @@
                 entriesList.innerHTML = html;
             }
 
-            // ─── Calendar ───
             function buildCalendar(year, month) {
                 const firstDay = new Date(year, month, 1).getDay();
                 const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -744,7 +730,6 @@
                 buildCalendar(currentViewDate.getFullYear(), currentViewDate.getMonth());
             }
 
-            // ─── Calendar toggle ───
             calendarToggle.addEventListener('click', function(e) {
                 e.stopPropagation();
                 calendarPopup.classList.toggle('active');
@@ -771,7 +756,6 @@
                 updateCalendar(1);
             });
 
-            // ─── Quick links ───
             document.querySelectorAll('.quick-links button').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const view = this.dataset.view;
@@ -792,7 +776,6 @@
                 });
             });
 
-            // ─── Search logic ───
             searchBtn.addEventListener('click', function() {
                 const query = searchInput.value;
                 renderEntries(query);
@@ -812,12 +795,10 @@
                 showAllEntries();
             });
 
-            // ─── initial render ───
             searchInput.value = '2026-08-15';
             renderEntries('2026-08-15');
             window.__journalEntries = entries;
 
-            // ─── Auto-focus password on load ───
             passwordInput.focus();
         })();
     </script>
