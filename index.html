@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal · protected</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #faf0f8;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+            line-height: 1.6;
+            color: #3d2a3a;
+        }
+
+        #lockScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #faf0f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        #lockScreen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .lock-box {
+            background: white;
+            border-radius: 40px;
+            padding: 3rem 3.5rem;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(200, 80, 170, 0.15), 0 8px 24px rgba(180, 50, 140, 0.08);
+            border: 1px solid rgba(200, 80, 170, 0.12);
+            text-align: center;
+        }
+
+        .lock-box .lock-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .lock-box h2 {
+            font-weight: 500;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #d474c0, #b85a9e, #9f4b88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .lock-box p {
+            color: #b08aa6;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .lock-box .password-input {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            border: 1px solid #dbb0d2;
+            border-radius: 40px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s;
+            background: #fcf5fa;
+            color: #3d2a3a;
+        }
+
+        .lock-box .password-input:focus {
+            border-color: #c85a9e;
+            box-shadow: 0 0 0 3px rgba(200, 90, 158, 0.2);
+        }
+
+        .lock-box .password-input::placeholder {
+            color: #b08aa6;
+        }
+
+        .lock-box .unlock-btn {
+            margin-top: 1rem;
+            width: 100%;
+            padding: 0.8rem;
+            background: #d474c0;
+            border: none;
+            border-radius: 40px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lock-box .unlock-btn:hover {
+            background: #c25a9e;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(200, 80, 170, 0.25);
+        }
+
+        .lock-box .error-msg {
+            color: #d474c0;
+            font-size: 0.85rem;
+            margin-top: 0.8rem;
+            min-height: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .lock-box .error-msg.show {
+            opacity: 1;
+        }
+
+        .blog-card {
+            max-width: 820px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 40px;
+            box-shadow: 0 20px 50px rgba(200, 80, 170, 0.15), 0 8px 24px rgba(180, 50, 140, 0.08);
+            padding: 2.8rem 3rem;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(200, 80, 170, 0.12);
+        }
+
+        .blog-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #f0d6e8;
+            padding-bottom: 1.2rem;
+        }
+
+        .blog-header h1 {
+            font-weight: 500;
+            font-size: 2rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #d474c0, #b85a9e, #9f4b88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+        }
+
+        .search-section {
+            margin-bottom: 2rem;
+        }
+
+        .search-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            background: #f8ecf5;
+            padding: 0.5rem 1.6rem;
+            border-radius: 60px;
+            border: 1px solid #e8cce0;
+        }
+
+        .search-wrapper .label {
+            font-weight: 400;
+            color: #7a4a6e;
+            letter-spacing: 0.4px;
+            font-size: 0.9rem;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 160px;
+            background: #ffffff;
+            border: 1px solid #dbb0d2;
+            border-radius: 40px;
+            padding: 0.5rem 1.2rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: #3d2a3a;
+            outline: none;
+            transition: all 0.2s;
+            letter-spacing: 0.2px;
+        }
+
+        .search-input::placeholder {
+            color: #b08aa6;
+            font-weight: 300;
+        }
+
+        .search-input:focus {
+            border-color: #c85a9e;
+            box-shadow: 0 0 0 3px rgba(200, 90, 158, 0.2);
+            background: #fffafd;
+        }
+
+        .search-btn {
+            background: #d474c0;
+            border: none;
+            border-radius: 40px;
+            padding: 0.5rem 1.6rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        .search-btn:hover {
+            background: #c25a9e;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(200, 80, 170, 0.25);
+        }
+
+        .search-btn:active {
+            transform: translateY(0);
+        }
+
+        .clear-btn {
+            background: transparent;
+            border: 1px solid #dbb0d2;
+            border-radius: 40px;
+            padding: 0.5rem 1.2rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: #7a4a6e;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .clear-btn:hover {
+            background: #f0d6e8;
+            border-color: #c85a9e;
+        }
+
+        .calendar-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .calendar-toggle {
+            background: transparent;
+            border: 1px solid #dbb0d2;
+            border-radius: 40px;
+            padding: 0.4rem 1rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            line-height: 1;
+            color: #7a4a6e;
+        }
+
+        .calendar-toggle:hover {
+            background: #f0d6e8;
+            border-color: #c85a9e;
+        }
+
+        .calendar-popup {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            background: white;
+            border-radius: 24px;
+            padding: 1.2rem;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(200, 80, 170, 0.08);
+            border: 1px solid #e8cce0;
+            z-index: 100;
+            min-width: 280px;
+        }
+
+        .calendar-popup.active {
+            display: block;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .calendar-header .month-year {
+            font-weight: 500;
+            color: #3d2a3a;
+            font-size: 1rem;
+        }
+
+        .calendar-header button {
+            background: transparent;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            color: #7a4a6e;
+            transition: all 0.2s;
+        }
+
+        .calendar-header button:hover {
+            background: #f0d6e8;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            text-align: center;
+        }
+
+        .calendar-grid .weekday {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #b08aa6;
+            text-transform: uppercase;
+            padding: 0.3rem 0;
+        }
+
+        .calendar-grid .day {
+            padding: 0.5rem 0;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: #3d2a3a;
+            transition: all 0.15s;
+        }
+
+        .calendar-grid .day:hover {
+            background: #f0d6e8;
+        }
+
+        .calendar-grid .day.selected {
+            background: #d474c0;
+            color: white;
+            font-weight: 500;
+        }
+
+        .calendar-grid .day.empty {
+            cursor: default;
+            color: transparent;
+        }
+
+        .calendar-grid .day.has-entry {
+            font-weight: 500;
+            color: #a14f8a;
+            position: relative;
+        }
+
+        .calendar-grid .day.has-entry::after {
+            content: '•';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #d474c0;
+            font-size: 0.6rem;
+        }
+
+        .calendar-grid .day.selected.has-entry::after {
+            color: white;
+        }
+
+        .calendar-popup .quick-links {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid #f0d6e8;
+        }
+
+        .calendar-popup .quick-links button {
+            background: #f8ecf5;
+            border: 1px solid #e8cce0;
+            border-radius: 30px;
+            padding: 0.2rem 1rem;
+            font-size: 0.75rem;
+            color: #7a4a6e;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .calendar-popup .quick-links button:hover {
+            background: #d474c0;
+            color: white;
+            border-color: #d474c0;
+        }
+
+        .blog-content {
+            margin: 2rem 0 2.5rem 0;
+        }
+
+        .entry-item {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #f0d6e8;
+        }
+
+        .entry-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .entry-item .entry-date {
+            font-weight: 500;
+            color: #7a4a6e;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+            display: block;
+            background: #f8ecf5;
+            padding: 0.2rem 1.2rem;
+            border-radius: 40px;
+            display: inline-block;
+            border: 1px solid #e8cce0;
+        }
+
+        .entry-item .entry-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #2d1b2b;
+            white-space: pre-wrap;
+            word-break: break-word;
+            padding-left: 0.5rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #b08aa6;
+            font-style: italic;
+            padding: 2rem 0;
+            font-weight: 300;
+        }
+
+        .footer-line {
+            margin-top: 2.8rem;
+            border-top: 1px solid #f0d6e8;
+            padding-top: 1.5rem;
+        }
+
+        @media (max-width: 550px) {
+            .blog-card {
+                padding: 1.8rem 1.2rem;
+                border-radius: 32px;
+            }
+            .lock-box {
+                padding: 2rem 1.5rem;
+            }
+            .blog-header h1 {
+                font-size: 1.8rem;
+            }
+            .search-wrapper {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.6rem;
+                border-radius: 32px;
+                padding: 1rem 1.2rem;
+            }
+            .search-input {
+                width: 100%;
+            }
+            .search-btn,
+            .clear-btn {
+                width: 100%;
+                text-align: center;
+            }
+            .calendar-popup {
+                left: 50%;
+                transform: translateX(-50%);
+                min-width: 260px;
+            }
+            .entry-item .entry-text {
+                font-size: 1rem;
+                padding-left: 0;
+            }
+        }
+
+        ::selection {
+            background: #dba6cc;
+            color: #2c0f25;
+        }
+
+        .blog-card:hover {
+            box-shadow: 0 24px 60px rgba(200, 80, 170, 0.18);
+            transition: 0.25s;
+        }
+    </style>
+</head>
+<body>
+    <!-- ─── LOCK SCREEN ─── -->
+    <div id="lockScreen">
+        <div class="lock-box">
+            <span class="lock-icon">🔒</span>
+            <h2>protected journal</h2>
+            <p>enter the password to unlock</p>
+            <input type="password" class="password-input" id="passwordInput" placeholder="Enter password..." autofocus>
+            <button class="unlock-btn" id="unlockBtn">unlock</button>
+            <div class="error-msg" id="errorMsg">incorrect password</div>
+        </div>
+    </div>
+
+    <!-- ─── JOURNAL CONTENT ─── -->
+    <div class="blog-card" id="journalContent">
+        <div class="blog-header">
+            <h1>journal</h1>
+        </div>
+
+        <div class="search-section">
+            <div class="search-wrapper">
+                <span class="label">🔍</span>
+                <input type="text" class="search-input" id="dateSearchInput" placeholder="Search by date (YYYY-MM-DD), month (YYYY-MM), or year (YYYY)" value="2026-08-15">
+
+                <div class="calendar-wrapper">
+                    <button class="calendar-toggle" id="calendarToggle">📅</button>
+                    <div class="calendar-popup" id="calendarPopup">
+                        <div class="calendar-header">
+                            <button id="prevMonth">‹</button>
+                            <span class="month-year" id="monthYearDisplay">August 2026</span>
+                            <button id="nextMonth">›</button>
+                        </div>
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- filled by JS -->
+                        </div>
+                        <div class="quick-links">
+                            <button data-view="today">Today</button>
+                            <button data-view="month">This month</button>
+                            <button data-view="year">This year</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="search-btn" id="searchButton">search</button>
+                <button class="clear-btn" id="clearButton">show all</button>
+            </div>
+        </div>
+
+        <div class="blog-content" id="entryContainer">
+            <div id="entriesList"></div>
+        </div>
+
+        <div class="footer-line"></div>
+    </div>
+
+    <script>
+        (function() {
+            // ─── PASSWORD ───
+            const CORRECT_PASSWORD = 'skbk123kskgjei291018asf';
+
+            // ─── DOM refs ───
+            const lockScreen = document.getElementById('lockScreen');
+            const passwordInput = document.getElementById('passwordInput');
+            const unlockBtn = document.getElementById('unlockBtn');
+            const errorMsg = document.getElementById('errorMsg');
+
+            // ─── DATA: single entry for August 15, 2026 ───
+            const entries = {
+                '2026-08-15': `today was one of those days that feels like it was made just for me.
+
+I woke up early and walked to the harbor. the fog was lifting off the water, and the boats were still sleeping. I sat on the old wooden dock and watched the sun burn through the mist.
+
+later, I found a bookstore I'd never noticed before. the owner — an elderly woman with silver hair — recommended a collection of poems. I read one on the bench outside and felt like the words were written for this exact moment.
+
+there's something about august that makes everything feel possible. like the summer knows it's ending, so it's giving us everything it has left.
+
+I want to remember this feeling.`
+            };
+
+            // ─── DOM refs for journal ───
+            const searchInput = document.getElementById('dateSearchInput');
+            const searchBtn = document.getElementById('searchButton');
+            const clearBtn = document.getElementById('clearButton');
+            const entriesList = document.getElementById('entriesList');
+            const calendarToggle = document.getElementById('calendarToggle');
+            const calendarPopup = document.getElementById('calendarPopup');
+            const calendarGrid = document.getElementById('calendarGrid');
+            const monthYearDisplay = document.getElementById('monthYearDisplay');
+            const prevMonthBtn = document.getElementById('prevMonth');
+            const nextMonthBtn = document.getElementById('nextMonth');
+
+            let currentViewDate = new Date(2026, 7, 1);
+            let selectedDate = '2026-08-15';
+
+            // ─── Unlock function ───
+            function unlock() {
+                const input = passwordInput.value;
+                if (input === CORRECT_PASSWORD) {
+                    lockScreen.classList.add('hidden');
+                    setTimeout(() => searchInput.focus(), 300);
+                } else {
+                    errorMsg.classList.add('show');
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                    setTimeout(() => {
+                        errorMsg.classList.remove('show');
+                    }, 3000);
+                }
+            }
+
+            // ─── Lock screen events ───
+            unlockBtn.addEventListener('click', unlock);
+
+            passwordInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    unlock();
+                }
+            });
+
+            // ─── render functions ───
+            function renderEntries(query) {
+                if (!query || query.trim() === '') {
+                    showAllEntries();
+                    return;
+                }
+
+                const trimmed = query.trim();
+                const sortedDates = Object.keys(entries).sort().reverse();
+
+                let filteredDates = [];
+
+                if (/^\d{4}$/.test(trimmed)) {
+                    filteredDates = sortedDates.filter(date => date.startsWith(trimmed));
+                } else if (/^\d{4}-\d{2}$/.test(trimmed)) {
+                    filteredDates = sortedDates.filter(date => date.startsWith(trimmed));
+                } else if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+                    filteredDates = sortedDates.filter(date => date === trimmed);
+                } else {
+                    filteredDates = sortedDates.filter(date => date.includes(trimmed));
+                }
+
+                if (filteredDates.length === 0) {
+                    entriesList.innerHTML = `<div class="empty-state">✎ no entries found for "${trimmed}"</div>`;
+                    return;
+                }
+
+                let html = '';
+                filteredDates.forEach(date => {
+                    const text = entries[date];
+                    html += `
+                        <div class="entry-item">
+                            <span class="entry-date">${date}</span>
+                            <div class="entry-text">${text}</div>
+                        </div>
+                    `;
+                });
+
+                entriesList.innerHTML = html;
+            }
+
+            function showAllEntries() {
+                const sortedDates = Object.keys(entries).sort().reverse();
+                if (sortedDates.length === 0) {
+                    entriesList.innerHTML = `<div class="empty-state">📖 no entries yet. start writing.</div>`;
+                    return;
+                }
+
+                let html = '';
+                sortedDates.forEach(date => {
+                    const text = entries[date];
+                    html += `
+                        <div class="entry-item">
+                            <span class="entry-date">${date}</span>
+                            <div class="entry-text">${text}</div>
+                        </div>
+                    `;
+                });
+
+                entriesList.innerHTML = html;
+            }
+
+            // ─── Calendar ───
+            function buildCalendar(year, month) {
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                const today = new Date();
+                const todayStr = today.toISOString().slice(0, 10);
+
+                let html = '';
+                const weekdays = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+                weekdays.forEach(d => {
+                    html += `<div class="weekday">${d}</div>`;
+                });
+
+                for (let i = 0; i < firstDay; i++) {
+                    html += `<div class="day empty"></div>`;
+                }
+
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                    const hasEntry = entries[dateStr] ? 'has-entry' : '';
+                    const isSelected = selectedDate === dateStr ? 'selected' : '';
+                    const isToday = dateStr === todayStr ? 'selected' : '';
+
+                    html += `
+                        <div class="day ${hasEntry} ${isSelected || isToday}" data-date="${dateStr}">${day}</div>
+                    `;
+                }
+
+                calendarGrid.innerHTML = html;
+
+                const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
+                    'October', 'November', 'December'
+                ];
+                monthYearDisplay.textContent = `${monthNames[month]} ${year}`;
+
+                document.querySelectorAll('.calendar-grid .day:not(.empty)').forEach(el => {
+                    el.addEventListener('click', function() {
+                        const date = this.dataset.date;
+                        if (date) {
+                            selectedDate = date;
+                            searchInput.value = date;
+                            renderEntries(date);
+                            calendarPopup.classList.remove('active');
+                            buildCalendar(currentViewDate.getFullYear(), currentViewDate.getMonth());
+                        }
+                    });
+                });
+            }
+
+            function updateCalendar(delta) {
+                const newDate = new Date(currentViewDate);
+                newDate.setMonth(newDate.getMonth() + delta);
+                currentViewDate = newDate;
+                buildCalendar(currentViewDate.getFullYear(), currentViewDate.getMonth());
+            }
+
+            // ─── Calendar toggle ───
+            calendarToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                calendarPopup.classList.toggle('active');
+                if (calendarPopup.classList.contains('active')) {
+                    const now = new Date();
+                    currentViewDate = new Date(now.getFullYear(), now.getMonth(), 1);
+                    buildCalendar(currentViewDate.getFullYear(), currentViewDate.getMonth());
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!calendarPopup.contains(e.target) && e.target !== calendarToggle) {
+                    calendarPopup.classList.remove('active');
+                }
+            });
+
+            prevMonthBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                updateCalendar(-1);
+            });
+
+            nextMonthBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                updateCalendar(1);
+            });
+
+            // ─── Quick links ───
+            document.querySelectorAll('.quick-links button').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const view = this.dataset.view;
+                    const now = new Date();
+                    let query = '';
+
+                    if (view === 'today') {
+                        query = now.toISOString().slice(0, 10);
+                    } else if (view === 'month') {
+                        query = now.toISOString().slice(0, 7);
+                    } else if (view === 'year') {
+                        query = now.toISOString().slice(0, 4);
+                    }
+
+                    searchInput.value = query;
+                    renderEntries(query);
+                    calendarPopup.classList.remove('active');
+                });
+            });
+
+            // ─── Search logic ───
+            searchBtn.addEventListener('click', function() {
+                const query = searchInput.value;
+                renderEntries(query);
+            });
+
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const query = searchInput.value;
+                    renderEntries(query);
+                }
+            });
+
+            clearBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                selectedDate = null;
+                showAllEntries();
+            });
+
+            // ─── initial render ───
+            searchInput.value = '2026-08-15';
+            renderEntries('2026-08-15');
+            window.__journalEntries = entries;
+
+            // ─── Auto-focus password on load ───
+            passwordInput.focus();
+        })();
+    </script>
+</body>
+</html>
