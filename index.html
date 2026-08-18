@@ -39,7 +39,7 @@
             align-items: center;
             z-index: 1000;
             backdrop-filter: blur(4px);
-            transition: opacity 0.5s ease, visibility 0.5s ease;
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         #lockScreen.hidden {
@@ -57,12 +57,30 @@
             box-shadow: 0 20px 50px rgba(200, 80, 170, 0.15), 0 8px 24px rgba(180, 50, 140, 0.08);
             border: 1px solid rgba(200, 80, 170, 0.12);
             text-align: center;
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .lock-box .lock-icon {
             font-size: 3rem;
             margin-bottom: 1rem;
             display: block;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .lock-box h2 {
@@ -89,14 +107,15 @@
             font-family: 'Inter', sans-serif;
             font-size: 1rem;
             outline: none;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
             background: #fcf5fa;
             color: #3d2a3a;
         }
 
         .lock-box .password-input:focus {
             border-color: #c85a9e;
-            box-shadow: 0 0 0 3px rgba(200, 90, 158, 0.2);
+            box-shadow: 0 0 0 4px rgba(200, 90, 158, 0.15);
+            transform: scale(1.01);
         }
 
         .lock-box .password-input::placeholder {
@@ -115,13 +134,35 @@
             font-weight: 500;
             color: white;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .lock-box .unlock-btn:hover {
             background: #c25a9e;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(200, 80, 170, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(200, 80, 170, 0.3);
+        }
+
+        .lock-box .unlock-btn:active {
+            transform: translateY(0);
+        }
+
+        .lock-box .unlock-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
+            transform: scale(0);
+            transition: transform 0.5s ease;
+        }
+
+        .lock-box .unlock-btn:hover::after {
+            transform: scale(1);
         }
 
         .lock-box .error-msg {
@@ -130,11 +171,13 @@
             margin-top: 0.8rem;
             min-height: 1.5rem;
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(-5px);
         }
 
         .lock-box .error-msg.show {
             opacity: 1;
+            transform: translateY(0);
         }
 
         .blog-card {
@@ -144,8 +187,19 @@
             border-radius: 40px;
             box-shadow: 0 20px 50px rgba(200, 80, 170, 0.15), 0 8px 24px rgba(180, 50, 140, 0.08);
             padding: 2.8rem 3rem;
-            transition: all 0.2s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             border: 1px solid rgba(200, 80, 170, 0.12);
+            animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .blog-card:hover {
+            box-shadow: 0 24px 60px rgba(200, 80, 170, 0.18);
+            transition: 0.3s ease;
         }
 
         .blog-header {
@@ -166,6 +220,13 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin: 0;
+            animation: shimmer 3s ease-in-out infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .search-section {
@@ -181,6 +242,12 @@
             padding: 0.5rem 1.6rem;
             border-radius: 60px;
             border: 1px solid #e8cce0;
+            transition: all 0.3s ease;
+        }
+
+        .search-wrapper:focus-within {
+            border-color: #d474c0;
+            box-shadow: 0 0 0 4px rgba(200, 80, 170, 0.08);
         }
 
         .search-wrapper .label {
@@ -201,7 +268,7 @@
             font-size: 0.95rem;
             color: #3d2a3a;
             outline: none;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
             letter-spacing: 0.2px;
         }
 
@@ -212,8 +279,9 @@
 
         .search-input:focus {
             border-color: #c85a9e;
-            box-shadow: 0 0 0 3px rgba(200, 90, 158, 0.2);
+            box-shadow: 0 0 0 4px rgba(200, 90, 158, 0.12);
             background: #fffafd;
+            transform: scale(1.01);
         }
 
         .search-btn {
@@ -226,19 +294,37 @@
             font-weight: 500;
             color: white;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
             letter-spacing: 0.3px;
             white-space: nowrap;
+            position: relative;
+            overflow: hidden;
         }
 
         .search-btn:hover {
             background: #c25a9e;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(200, 80, 170, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(200, 80, 170, 0.25);
         }
 
         .search-btn:active {
             transform: translateY(0);
+        }
+
+        .search-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
+            transform: scale(0);
+            transition: transform 0.5s ease;
+        }
+
+        .search-btn:hover::after {
+            transform: scale(1);
         }
 
         .clear-btn {
@@ -251,13 +337,14 @@
             font-weight: 400;
             color: #7a4a6e;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
             white-space: nowrap;
         }
 
         .clear-btn:hover {
             background: #f0d6e8;
             border-color: #c85a9e;
+            transform: translateY(-2px);
         }
 
         .calendar-wrapper {
@@ -272,7 +359,7 @@
             padding: 0.4rem 1rem;
             font-size: 1.1rem;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
             line-height: 1;
             color: #7a4a6e;
         }
@@ -280,6 +367,7 @@
         .calendar-toggle:hover {
             background: #f0d6e8;
             border-color: #c85a9e;
+            transform: scale(1.05);
         }
 
         .calendar-popup {
@@ -294,6 +382,18 @@
             border: 1px solid #e8cce0;
             z-index: 100;
             min-width: 280px;
+            animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .calendar-popup.active {
@@ -321,11 +421,12 @@
             padding: 0.2rem 0.6rem;
             border-radius: 20px;
             color: #7a4a6e;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
         }
 
         .calendar-header button:hover {
             background: #f0d6e8;
+            transform: scale(1.1);
         }
 
         .calendar-grid {
@@ -349,17 +450,19 @@
             cursor: pointer;
             font-size: 0.85rem;
             color: #3d2a3a;
-            transition: all 0.15s;
+            transition: all 0.2s ease;
         }
 
         .calendar-grid .day:hover {
             background: #f0d6e8;
+            transform: scale(1.05);
         }
 
         .calendar-grid .day.selected {
             background: #d474c0;
             color: white;
             font-weight: 500;
+            transform: scale(1.05);
         }
 
         .calendar-grid .day.empty {
@@ -404,13 +507,14 @@
             font-size: 0.75rem;
             color: #7a4a6e;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
         }
 
         .calendar-popup .quick-links button:hover {
             background: #d474c0;
             color: white;
             border-color: #d474c0;
+            transform: scale(1.05);
         }
 
         .blog-content {
@@ -421,12 +525,19 @@
             margin-bottom: 2rem;
             padding-bottom: 2rem;
             border-bottom: 1px solid #f0d6e8;
+            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
         }
 
         .entry-item:last-child {
             border-bottom: none;
             margin-bottom: 0;
             padding-bottom: 0;
+        }
+
+        .entry-item:hover {
+            transform: translateX(4px);
+            transition: 0.2s ease;
         }
 
         .entry-item .entry-date {
@@ -442,6 +553,12 @@
             border-radius: 40px;
             display: inline-block;
             border: 1px solid #e8cce0;
+            transition: all 0.3s ease;
+        }
+
+        .entry-item:hover .entry-date {
+            background: #f0d6e8;
+            border-color: #d474c0;
         }
 
         .entry-item .entry-text {
@@ -459,6 +576,7 @@
             font-style: italic;
             padding: 2rem 0;
             font-weight: 300;
+            animation: fadeIn 0.5s ease;
         }
 
         .footer-line {
@@ -507,11 +625,6 @@
         ::selection {
             background: #dba6cc;
             color: #2c0f25;
-        }
-
-        .blog-card:hover {
-            box-shadow: 0 24px 60px rgba(200, 80, 170, 0.18);
-            transition: 0.25s;
         }
     </style>
 </head>
