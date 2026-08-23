@@ -679,7 +679,15 @@
 
     <script>
         (function() {
-            const CORRECT_PASSWORD = 'skbk123kskgjei291018asf';
+            const CORRECT_PASSWORD_HASH = '5260f640c5d9475978ead468742ee64ffe5665c6eaa29a15f50b2f0d25318f48';
+
+            async function hashPassword(text) {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(text);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            }
 
             const lockScreen = document.getElementById('lockScreen');
             const passwordInput = document.getElementById('passwordInput');
@@ -690,7 +698,7 @@
                 '2026-08-15': `Today I went to the mall with some friends, one of them one Cliff, in the middle of our playdate Cliff got lost in XXI and we didnt see him for about an hour, then all of us went to kfc and we spam called Cliff until he answered, then he was in hypermart alone shopping for milk and oranges, thats all for what I want to share today!`,
                 '2026-08-18': `Today we had some competitions for National independence day! We had lots of fun and many of us fell in the sack race, after competitions we also got to drink iced tea, and after school, I found a sneaky person named Cliff trying to escape school because he is hungry and wants to go to canteen, thats all i can think of for today!`,
                 '2026-08-22': `Today I had eskul badminton with my friends and we had lots of fun before and after, in the first part of eskul we had to run 5 laps around the field, and the next part is 3 laps of shuttle run, after that we were very very tired because we had to do lots of cardio, and thats all I want to say, thank you!`,
-                '2026-06-23-: `Today I went to the mall with my mom and ate lunch there, after lunch I had a haircut that took about 30 minutes, then i went to XXI to just chill there and i had online lessons there, after online lessons about 6:30 i went downstairs and wanted to go home, my grandpa said he would pick me up but he said he was going to buy some bananas downstairs, i was waiting for half an hour and he wasnt finished buying bananas, at the end we went home at 7:30, thats all i want to share for today!`
+                '2026-06-23': `Today I went to the mall with my mom and ate lunch there, after lunch I had a haircut that took about 30 minutes, then i went to XXI to just chill there and i had online lessons there, after online lessons about 6:30 i went downstairs and wanted to go home, my grandpa said he would pick me up but he said he was going to buy some bananas downstairs, i was waiting for half an hour and he wasnt finished buying bananas, at the end we went home at 7:30, thats all i want to share for today!`
             };
 
             const searchInput = document.getElementById('dateSearchInput');
@@ -707,9 +715,10 @@
             let currentViewDate = new Date(2026, 7, 1);
             let selectedDate = '2026-08-15';
 
-            function unlock() {
+            async function unlock() {
                 const input = passwordInput.value;
-                if (input === CORRECT_PASSWORD) {
+                const inputHash = await hashPassword(input);
+                if (inputHash === CORRECT_PASSWORD_HASH) {
                     lockScreen.classList.add('hidden');
                     setTimeout(() => searchInput.focus(), 300);
                 } else {
