@@ -648,7 +648,7 @@
         <div class="search-section">
             <div class="search-wrapper">
                 <span class="label">🔍</span>
-                <input type="text" class="search-input" id="dateSearchInput" placeholder="Search by date (YYYY-MM-DD), month (YYYY-MM), or year (YYYY)" value="2026-08-15">
+                <input type="text" class="search-input" id="dateSearchInput" placeholder="Search by date (YYYY-MM-DD), month (YYYY-MM), or year (YYYY)">
                 <div class="calendar-wrapper">
                     <button class="calendar-toggle" id="calendarToggle">📅</button>
                     <div class="calendar-popup" id="calendarPopup">
@@ -679,27 +679,60 @@
 
     <script>
         (function() {
-            const CORRECT_PASSWORD_HASH = '5260f640c5d9475978ead468742ee64ffe5665c6eaa29a15f50b2f0d25318f48';
+            const SALT_B64 = 'CV/LmV97tcVnU8DC+tQAoA==';
+            const ITERATIONS = 100000;
 
-            async function hashPassword(text) {
+            const encryptedEntries = {
+                '2026-08-15': { iv: 'g4PvIy2ZpKmcYF/d', ct: 'Ug+TxGw6S6r1ojhgSaUd9VPNwkFBGJdk2bGT5BalgQTXMsiVgQJwQ59SDehKRXC7oW1+lV1CaU0ZW5OA5t+VnUpmZm1RbVCm/r4RLWg2BZyL4n/vwAScvLMm3elK7f4mltqqtIHWQtiiL57fHDEjeRCOuW1lyzjx1/g72ix5/A5gTUolxH9z/C+kxEaQeGx6hPwQFDvckOEK66AWdFBBTX2EX/mUgT7h2GpPIQThLnSFTRMA7u/MPCmOZTyy0diKU/mbi2nXcmApCKicyAfUOfuan517doNZZHI9fkLl15uOlPzaNSr3THnkTnR0EXhbVguSA2BRH6ljQw/v9ybiwv76IgiZYrYmSZwhzN+onZnqt2xAhx6xCYfaL2vq+cv9icEUsq8blyPQjBLQGi0Fj444rPFicQQYUInYZN0ItMZ7AkejyvKoEq5zhfVZtBtmFWmOlL/SMu++6mNjtA==' },
+                '2026-08-18': { iv: 'GAFsTpsyTFMgCk+l', ct: 'fjSYZLQ9JKOCHjENimDigNN2pTiAl1CrJB5EJ8W1z9/1d9n5gPg4h0oLF//arnGxSFhHhC0k2b0bAGpxzH7GTUJy7fTH+pPL+IoDPPm8N/883iUHbF3XSyZ0iFdETyzpTDO2fGHAllyNa1UG58QqPpWntCrf05C6F+b2Fm/5cmLD6ihnhr7Sjy5jNsqRiVGUNCwulG3Tuk3+Ca8tvF+FrrCTHrRRdlr1/q/LKBD4FC+qZUceprxg6PmRcT1jZGyCF5DRh3aTeGPHAJ5Br7cHId8anzCxUyKMv8VnkMsDbXALJ4WtOr87dHwYSSdONYc9EtL2K0BF+FedSIIq0Ugx/nm8MCObc7zo4AphE9Z7Xw336qJWUcg5gku8G7eAaieczH7eOA4DWN+d+COHRzGsc0VkAFT7nH79SLuu6jSeIebZwGeLi4gKhF4yiNqjpanBqDV8/dGbKXsShpU=' },
+                '2026-08-22': { iv: 'A1kTCf3+Jl5SrMy3', ct: 'MqFwaAtZGkGGPZRKnyn5zi8d4BFqZ/X+iQuYzuYG2526LJ03y+kJ5vjZq/tjdfX+K7y4AyYjcyZ4FaQA/MrZMLBmuITIkgzjKGKvvsSUMkztzUMoGX/7EwdtBl4lQua22wzMOEWVpWUSu8B/dOXQoFARauxhloAvbuVT0VkmZvlVLL63tCT7iGEJ1Yns7h4vqcIYjFsNHJ1N0k+TT3UIjFaYFNdE4qtg6C9Xq2Q5laCot9Hjiv12Oh5/FOk+K4+CvtXHCiXOy8e4Rxz7l/eMn1t6cHS3w5X5vzHCvEUpMXE4Wy3JWtzXZQVrrJ7oL/3yJl5Xm3M3s9BtTXGjS4r+Wj74il3AZACyImOS52JAegZOZ3wDq6G5VyaeQM6llYv66b8q/bAuknBjns3I8lQxjOjCK3iZyGr0zyxFGW84YIe83Q==' },
+                '2026-08-23': { iv: 'cQnV/RbH0KhJOO2d', ct: 'oqMbJN0+1ByMgd5uKPRyuHDCPRK+U7DDtSDGj7i8TLpHMg8mz9HsJObvo0hvA5rMaoQVsB0BMqiUcVdo+5mExiZFUH3P2iPzpMCIhZnnpa9XATlTiWC/TVZm2PEKKuKgqu2fAcQSAQqQnAWbdMXyOPmqLC4n1ARibHk+Xbzw9dMF79t6S4AUxQ+5700opVhAgS+OS+drRMsf5l5dV8n7f9ckB+IQIk5Nb9/bhnkBJ0T+6AdB0lvUmtvuR5zBwrHp/HOF6qiYaKzlUkkDH+ob06C+TyFgoESBUYur+nwlSzJj6mSMYKD1Qa5J4sbhmkkSiYmEdpn8KsnxQd/2n5h/Z+ZqeQiO3y+XARyh1f3oIWnDions1DyfCgYECSoZ+7CAfxIb19i+3ipiaGTmFGiG73ofWxpidjW+WcRolIoRjp1o9M0b7EoLCH3GsSdfBZG+T1GR1G4m75II5fJSd9dyDSEY32aLXa//Jthez2SGvpkCeGCMPaSAn1/l861AXvTlhaJkXJ9n9xMNeGd7LWXBhhhme4IHRGffohlpGGZ3rq3pIzSREDo22g5TdMTXulDPK90d04o+JzxjRv/qjFiydNy6OFm/Z2jKh5V3ch+pkdZJLi7nL8l18Fq4gUTXvnV/uGeyhJqNBNm56V/PdDtWaStsWmFgVMvLCg==' }
+            };
+
+            let entries = {};
+
+            function base64ToBuffer(b64) {
+                const binary = atob(b64);
+                const bytes = new Uint8Array(binary.length);
+                for (let i = 0; i < binary.length; i++) {
+                    bytes[i] = binary.charCodeAt(i);
+                }
+                return bytes.buffer;
+            }
+
+            async function deriveKey(password) {
                 const encoder = new TextEncoder();
-                const data = encoder.encode(text);
-                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-                const hashArray = Array.from(new Uint8Array(hashBuffer));
-                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                const keyMaterial = await crypto.subtle.importKey(
+                    'raw', encoder.encode(password), 'PBKDF2', false, ['deriveKey']
+                );
+                return crypto.subtle.deriveKey(
+                    { name: 'PBKDF2', salt: base64ToBuffer(SALT_B64), iterations: ITERATIONS, hash: 'SHA-256' },
+                    keyMaterial,
+                    { name: 'AES-GCM', length: 256 },
+                    false,
+                    ['decrypt']
+                );
+            }
+
+            async function decryptAllEntries(key) {
+                const decoder = new TextDecoder();
+                const result = {};
+                for (const date in encryptedEntries) {
+                    const { iv, ct } = encryptedEntries[date];
+                    const plainBuf = await crypto.subtle.decrypt(
+                        { name: 'AES-GCM', iv: base64ToBuffer(iv) },
+                        key,
+                        base64ToBuffer(ct)
+                    );
+                    result[date] = decoder.decode(plainBuf);
+                }
+                return result;
             }
 
             const lockScreen = document.getElementById('lockScreen');
             const passwordInput = document.getElementById('passwordInput');
             const unlockBtn = document.getElementById('unlockBtn');
             const errorMsg = document.getElementById('errorMsg');
-
-            const entries = {
-                '2026-08-15': `Today I went to the mall with some friends, one of them one Cliff, in the middle of our playdate Cliff got lost in XXI and we didnt see him for about an hour, then all of us went to kfc and we spam called Cliff until he answered, then he was in hypermart alone shopping for milk and oranges, thats all for what I want to share today!`,
-                '2026-08-18': `Today we had some competitions for National independence day! We had lots of fun and many of us fell in the sack race, after competitions we also got to drink iced tea, and after school, I found a sneaky person named Cliff trying to escape school because he is hungry and wants to go to canteen, thats all i can think of for today!`,
-                '2026-08-22': `Today I had eskul badminton with my friends and we had lots of fun before and after, in the first part of eskul we had to run 5 laps around the field, and the next part is 3 laps of shuttle run, after that we were very very tired because we had to do lots of cardio, and thats all I want to say, thank you!`,
-                '2026-06-23': `Today I went to the mall with my mom and ate lunch there, after lunch I had a haircut that took about 30 minutes, then i went to XXI to just chill there and i had online lessons there, after online lessons about 6:30 i went downstairs and wanted to go home, my grandpa said he would pick me up but he said he was going to buy some bananas downstairs, i was waiting for half an hour and he wasnt finished buying bananas, at the end we went home at 7:30, thats all i want to share for today!`
-            };
 
             const searchInput = document.getElementById('dateSearchInput');
             const searchBtn = document.getElementById('searchButton');
@@ -712,16 +745,23 @@
             const prevMonthBtn = document.getElementById('prevMonth');
             const nextMonthBtn = document.getElementById('nextMonth');
 
-            let currentViewDate = new Date(2026, 7, 1);
-            let selectedDate = '2026-08-15';
+            const now0 = new Date();
+            let currentViewDate = new Date(now0.getFullYear(), now0.getMonth(), 1);
+            let selectedDate = now0.toISOString().slice(0, 10);
 
             async function unlock() {
                 const input = passwordInput.value;
-                const inputHash = await hashPassword(input);
-                if (inputHash === CORRECT_PASSWORD_HASH) {
+                try {
+                    const key = await deriveKey(input);
+                    entries = await decryptAllEntries(key);
                     lockScreen.classList.add('hidden');
+                    const todayStr = new Date().toISOString().slice(0, 10);
+                    selectedDate = todayStr;
+                    searchInput.value = todayStr;
+                    renderEntries(todayStr);
+                    buildCalendar(currentViewDate.getFullYear(), currentViewDate.getMonth());
                     setTimeout(() => searchInput.focus(), 300);
-                } else {
+                } catch (err) {
                     errorMsg.classList.add('show');
                     passwordInput.value = '';
                     passwordInput.focus();
@@ -920,10 +960,6 @@
                 selectedDate = null;
                 showAllEntries();
             });
-
-            searchInput.value = '2026-08-15';
-            renderEntries('2026-08-15');
-            window.__journalEntries = entries;
 
             passwordInput.focus();
         })();
