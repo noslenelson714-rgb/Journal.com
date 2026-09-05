@@ -585,6 +585,177 @@
             padding-top: 1.5rem;
         }
 
+        .panel-toggle-row {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.4rem;
+        }
+
+        .panel-toggle-row button {
+            background: transparent;
+            border: 1px solid #dbb0d2;
+            border-radius: 40px;
+            padding: 0.5rem 1.4rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #7a4a6e;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .panel-toggle-row button:hover {
+            background: #f0d6e8;
+            border-color: #c85a9e;
+            transform: translateY(-2px);
+        }
+
+        .panel-toggle-row button.active {
+            background: #d474c0;
+            color: #ffffff;
+            border-color: #d474c0;
+        }
+
+        .add-panel,
+        .feedback-panel {
+            display: none;
+            background: #f8ecf5;
+            border: 1px solid #e8cce0;
+            border-radius: 28px;
+            padding: 1.5rem 1.7rem;
+            margin-bottom: 2rem;
+            animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .add-panel.active,
+        .feedback-panel.active {
+            display: block;
+        }
+
+        .add-panel label,
+        .feedback-panel label {
+            font-size: 0.78rem;
+            color: #7a4a6e;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .add-panel input[type="date"],
+        .add-panel textarea,
+        .feedback-panel input[type="text"],
+        .feedback-panel textarea {
+            width: 100%;
+            border: 1px solid #dbb0d2;
+            border-radius: 20px;
+            padding: 0.7rem 1.1rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: #3d2a3a;
+            background: #ffffff;
+            outline: none;
+            transition: all 0.3s ease;
+            margin-bottom: 1.1rem;
+            resize: vertical;
+        }
+
+        .add-panel textarea,
+        .feedback-panel textarea {
+            min-height: 130px;
+            line-height: 1.7;
+        }
+
+        .add-panel input:focus,
+        .add-panel textarea:focus,
+        .feedback-panel input:focus,
+        .feedback-panel textarea:focus {
+            border-color: #c85a9e;
+            box-shadow: 0 0 0 4px rgba(200, 90, 158, 0.12);
+        }
+
+        .panel-save-btn {
+            background: #d474c0;
+            border: none;
+            border-radius: 40px;
+            padding: 0.6rem 1.7rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .panel-save-btn:hover {
+            background: #c25a9e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(200, 80, 170, 0.25);
+        }
+
+        .panel-status {
+            font-size: 0.82rem;
+            color: #7a4a6e;
+            margin-top: 0.6rem;
+            min-height: 1.2rem;
+        }
+
+        .feedback-list {
+            margin-top: 1.6rem;
+            padding-top: 1.4rem;
+            border-top: 1px solid #e8cce0;
+        }
+
+        .feedback-item {
+            background: #ffffff;
+            border: 1px solid #f0d6e8;
+            border-radius: 20px;
+            padding: 1rem 1.3rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .feedback-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .feedback-item .feedback-meta {
+            font-size: 0.75rem;
+            color: #b08aa6;
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .feedback-item .feedback-text {
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: #2d1b2b;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .export-btn {
+            background: transparent;
+            border: 1px solid #dbb0d2;
+            border-radius: 40px;
+            padding: 0.5rem 1.4rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 400;
+            color: #7a4a6e;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: auto;
+        }
+
+        .export-btn:hover {
+            background: #f0d6e8;
+            border-color: #c85a9e;
+            transform: translateY(-2px);
+        }
+
         @media (max-width: 550px) {
             .blog-card {
                 padding: 1.8rem 1.2rem;
@@ -619,6 +790,20 @@
             .entry-item .entry-text {
                 font-size: 1rem;
                 padding-left: 0;
+            }
+            .panel-toggle-row {
+                flex-direction: column;
+            }
+            .panel-toggle-row button {
+                width: 100%;
+                text-align: center;
+            }
+            .export-btn {
+                margin-left: 0;
+            }
+            .add-panel,
+            .feedback-panel {
+                padding: 1.2rem 1.2rem;
             }
         }
 
@@ -670,6 +855,31 @@
             </div>
         </div>
 
+        <div class="panel-toggle-row">
+            <button type="button" id="toggleAddPanel">+ new entry</button>
+            <button type="button" id="toggleFeedbackPanel">feedback</button>
+            <button type="button" class="export-btn" id="exportBackupBtn">export backup</button>
+        </div>
+
+        <div class="add-panel" id="addPanel">
+            <label for="newEntryDate">Date</label>
+            <input type="date" id="newEntryDate">
+            <label for="newEntryText">Entry</label>
+            <textarea id="newEntryText" placeholder="Write today's entry..."></textarea>
+            <button type="button" class="panel-save-btn" id="saveEntryBtn">save entry</button>
+            <div class="panel-status" id="addPanelStatus"></div>
+        </div>
+
+        <div class="feedback-panel" id="feedbackPanel">
+            <label for="feedbackName">Name (optional)</label>
+            <input type="text" id="feedbackName" placeholder="Anonymous">
+            <label for="feedbackText">Feedback</label>
+            <textarea id="feedbackText" placeholder="Leave a note for the author..."></textarea>
+            <button type="button" class="panel-save-btn" id="submitFeedbackBtn">submit feedback</button>
+            <div class="panel-status" id="feedbackPanelStatus"></div>
+            <div class="feedback-list" id="feedbackListEl"></div>
+        </div>
+
         <div class="blog-content" id="entryContainer">
             <div id="entriesList"></div>
         </div>
@@ -693,7 +903,11 @@
                 '2026-08-29': { iv: 'qRwrz8IimCTmjiQ/', ct: 'Ro7+6YAf6JAaGFS9xUEfni1fHl2P02nOwf14XcZXnA4fegFJWtfq9e8ZzSgE288oDi4vEiiW3FRrpjIOskl+JlSyR2lqnLSV5uamA9B9KqsJIYE2qAIIm5Wm8c4A+jAg5xml0wYMvKb2RdsOea3gl6f10o5F1uaoITQAjob+kMHy74WNBpCuhY2Uy+TXipypVYvv3ULBOIzXcw4dNnwmFsgzi9VaN0/SDnpsZp4moKU1Z9Lna4A+m5WOMsTZclhJjame36LIlwx6aziTELXfHCWDVCLNiHZmITr1gv/Rq/2xXgh6aqOEx5SAXaNO+hghdg==' }
             };
 
+            const encryptedFeedback = [];
+
             let entries = {};
+            let feedbackItems = [];
+            let cryptoKey = null;
 
             function base64ToBuffer(b64) {
                 const binary = atob(b64);
@@ -714,21 +928,67 @@
                     keyMaterial,
                     { name: 'AES-GCM', length: 256 },
                     false,
-                    ['decrypt']
+                    ['encrypt', 'decrypt']
                 );
             }
 
-            async function decryptAllEntries(key) {
+            function bufferToBase64(buf) {
+                const bytes = new Uint8Array(buf);
+                let binary = '';
+                for (let i = 0; i < bytes.byteLength; i++) {
+                    binary += String.fromCharCode(bytes[i]);
+                }
+                return btoa(binary);
+            }
+
+            function escapeHtml(str) {
+                return String(str)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+
+            async function encryptText(key, plaintext) {
+                const iv = crypto.getRandomValues(new Uint8Array(12));
+                const encoder = new TextEncoder();
+                const ctBuf = await crypto.subtle.encrypt(
+                    { name: 'AES-GCM', iv },
+                    key,
+                    encoder.encode(plaintext)
+                );
+                return { iv: bufferToBase64(iv), ct: bufferToBase64(ctBuf) };
+            }
+
+            async function decryptText(key, iv, ct) {
                 const decoder = new TextDecoder();
+                const plainBuf = await crypto.subtle.decrypt(
+                    { name: 'AES-GCM', iv: base64ToBuffer(iv) },
+                    key,
+                    base64ToBuffer(ct)
+                );
+                return decoder.decode(plainBuf);
+            }
+
+            async function decryptAllEntries(key) {
                 const result = {};
                 for (const date in encryptedEntries) {
                     const { iv, ct } = encryptedEntries[date];
-                    const plainBuf = await crypto.subtle.decrypt(
-                        { name: 'AES-GCM', iv: base64ToBuffer(iv) },
-                        key,
-                        base64ToBuffer(ct)
-                    );
-                    result[date] = decoder.decode(plainBuf);
+                    result[date] = await decryptText(key, iv, ct);
+                }
+                return result;
+            }
+
+            async function decryptAllFeedback(key) {
+                const result = [];
+                for (const item of encryptedFeedback) {
+                    const raw = await decryptText(key, item.iv, item.ct);
+                    try {
+                        result.push(JSON.parse(raw));
+                    } catch (err) {
+                        continue;
+                    }
                 }
                 return result;
             }
@@ -749,6 +1009,21 @@
             const prevMonthBtn = document.getElementById('prevMonth');
             const nextMonthBtn = document.getElementById('nextMonth');
 
+            const toggleAddPanelBtn = document.getElementById('toggleAddPanel');
+            const toggleFeedbackPanelBtn = document.getElementById('toggleFeedbackPanel');
+            const addPanel = document.getElementById('addPanel');
+            const feedbackPanel = document.getElementById('feedbackPanel');
+            const newEntryDate = document.getElementById('newEntryDate');
+            const newEntryText = document.getElementById('newEntryText');
+            const saveEntryBtn = document.getElementById('saveEntryBtn');
+            const addPanelStatus = document.getElementById('addPanelStatus');
+            const feedbackName = document.getElementById('feedbackName');
+            const feedbackText = document.getElementById('feedbackText');
+            const submitFeedbackBtn = document.getElementById('submitFeedbackBtn');
+            const feedbackPanelStatus = document.getElementById('feedbackPanelStatus');
+            const feedbackListEl = document.getElementById('feedbackListEl');
+            const exportBackupBtn = document.getElementById('exportBackupBtn');
+
             const now0 = new Date();
             let currentViewDate = new Date(now0.getFullYear(), now0.getMonth(), 1);
             let selectedDate = now0.toISOString().slice(0, 10);
@@ -758,11 +1033,16 @@
                 try {
                     const key = await deriveKey(input);
                     entries = await decryptAllEntries(key);
+                    feedbackItems = await decryptAllFeedback(key);
+                    cryptoKey = key;
+                    passwordInput.value = '';
                     lockScreen.classList.add('hidden');
                     const todayStr = new Date().toISOString().slice(0, 10);
                     selectedDate = todayStr;
                     searchInput.value = todayStr;
+                    newEntryDate.value = todayStr;
                     renderEntries(todayStr);
+                    renderFeedback();
                     buildCalendar(currentViewDate.getFullYear(), currentViewDate.getMonth());
                     setTimeout(() => searchInput.focus(), 300);
                 } catch (err) {
@@ -806,7 +1086,7 @@
                 }
 
                 if (filteredDates.length === 0) {
-                    entriesList.innerHTML = `<div class="empty-state">✎ no entries found for "${trimmed}"</div>`;
+                    entriesList.innerHTML = `<div class="empty-state">✎ no entries found for "${escapeHtml(trimmed)}"</div>`;
                     return;
                 }
 
@@ -815,8 +1095,8 @@
                     const text = entries[date];
                     html += `
                         <div class="entry-item">
-                            <span class="entry-date">${date}</span>
-                            <div class="entry-text">${text}</div>
+                            <span class="entry-date">${escapeHtml(date)}</span>
+                            <div class="entry-text">${escapeHtml(text)}</div>
                         </div>
                     `;
                 });
@@ -836,8 +1116,8 @@
                     const text = entries[date];
                     html += `
                         <div class="entry-item">
-                            <span class="entry-date">${date}</span>
-                            <div class="entry-text">${text}</div>
+                            <span class="entry-date">${escapeHtml(date)}</span>
+                            <div class="entry-text">${escapeHtml(text)}</div>
                         </div>
                     `;
                 });
@@ -963,6 +1243,113 @@
                 searchInput.value = '';
                 selectedDate = null;
                 showAllEntries();
+            });
+
+            const sessionEntryCipher = {};
+            const sessionFeedbackCipher = [];
+
+            function closePanels() {
+                addPanel.classList.remove('active');
+                feedbackPanel.classList.remove('active');
+                toggleAddPanelBtn.classList.remove('active');
+                toggleFeedbackPanelBtn.classList.remove('active');
+            }
+
+            toggleAddPanelBtn.addEventListener('click', function() {
+                const willOpen = !addPanel.classList.contains('active');
+                closePanels();
+                if (willOpen) {
+                    addPanel.classList.add('active');
+                    toggleAddPanelBtn.classList.add('active');
+                    newEntryText.focus();
+                }
+            });
+
+            toggleFeedbackPanelBtn.addEventListener('click', function() {
+                const willOpen = !feedbackPanel.classList.contains('active');
+                closePanels();
+                if (willOpen) {
+                    feedbackPanel.classList.add('active');
+                    toggleFeedbackPanelBtn.classList.add('active');
+                    feedbackText.focus();
+                }
+            });
+
+            function renderFeedback() {
+                if (!feedbackItems.length) {
+                    feedbackListEl.innerHTML = `<div class="empty-state">no feedback yet</div>`;
+                    return;
+                }
+                const sorted = feedbackItems.slice().sort((a, b) => (a.ts < b.ts ? 1 : -1));
+                let html = '';
+                sorted.forEach(item => {
+                    const when = new Date(item.ts).toLocaleString();
+                    html += `
+                        <div class="feedback-item">
+                            <div class="feedback-meta">${escapeHtml(item.name || 'Anonymous')} · ${escapeHtml(when)}</div>
+                            <div class="feedback-text">${escapeHtml(item.text)}</div>
+                        </div>
+                    `;
+                });
+                feedbackListEl.innerHTML = html;
+            }
+
+            saveEntryBtn.addEventListener('click', async function() {
+                if (!cryptoKey) return;
+                const date = newEntryDate.value;
+                const text = newEntryText.value.trim();
+                if (!date || !text) {
+                    addPanelStatus.textContent = 'add a date and some text first';
+                    return;
+                }
+                const cipher = await encryptText(cryptoKey, text);
+                sessionEntryCipher[date] = cipher;
+                entries[date] = text;
+                newEntryText.value = '';
+                addPanelStatus.textContent = 'saved for this session — use export backup to keep it permanently';
+                selectedDate = date;
+                searchInput.value = date;
+                renderEntries(date);
+                buildCalendar(currentViewDate.getFullYear(), currentViewDate.getMonth());
+            });
+
+            submitFeedbackBtn.addEventListener('click', async function() {
+                if (!cryptoKey) return;
+                const text = feedbackText.value.trim();
+                if (!text) {
+                    feedbackPanelStatus.textContent = 'write something first';
+                    return;
+                }
+                const name = feedbackName.value.trim() || 'Anonymous';
+                const item = { name, text, ts: new Date().toISOString() };
+                const cipher = await encryptText(cryptoKey, JSON.stringify(item));
+                sessionFeedbackCipher.push(cipher);
+                feedbackItems.push(item);
+                feedbackText.value = '';
+                feedbackName.value = '';
+                feedbackPanelStatus.textContent = 'feedback saved for this session — use export backup to keep it permanently';
+                renderFeedback();
+            });
+
+            exportBackupBtn.addEventListener('click', function() {
+                const combinedEntries = Object.assign({}, encryptedEntries, sessionEntryCipher);
+                const combinedFeedback = encryptedFeedback.concat(sessionFeedbackCipher);
+                const backup = {
+                    salt: SALT_B64,
+                    iterations: ITERATIONS,
+                    entries: combinedEntries,
+                    feedback: combinedFeedback
+                };
+                const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                const stamp = new Date().toISOString().slice(0, 10);
+                a.href = url;
+                a.download = `journal-backup-${stamp}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
             });
 
             passwordInput.focus();
