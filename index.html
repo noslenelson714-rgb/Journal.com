@@ -370,6 +370,28 @@
             transform: scale(1.05);
         }
 
+        .sort-select {
+            background: #ffffff;
+            border: 1px solid #dbb0d2;
+            border-radius: 40px;
+            padding: 0.5rem 1.1rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: #3d2a3a;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sort-select:hover {
+            border-color: #c85a9e;
+        }
+
+        .sort-select:focus {
+            border-color: #c85a9e;
+            box-shadow: 0 0 0 4px rgba(200, 90, 158, 0.12);
+        }
+
         .calendar-popup {
             display: none;
             position: absolute;
@@ -617,8 +639,7 @@
             border-color: #d474c0;
         }
 
-        .add-panel,
-        .feedback-panel {
+        .add-panel {
             display: none;
             background: #f8ecf5;
             border: 1px solid #e8cce0;
@@ -628,13 +649,11 @@
             animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .add-panel.active,
-        .feedback-panel.active {
+        .add-panel.active {
             display: block;
         }
 
-        .add-panel label,
-        .feedback-panel label {
+        .add-panel label {
             font-size: 0.78rem;
             color: #7a4a6e;
             font-weight: 500;
@@ -645,9 +664,7 @@
         }
 
         .add-panel input[type="date"],
-        .add-panel textarea,
-        .feedback-panel input[type="text"],
-        .feedback-panel textarea {
+        .add-panel textarea {
             width: 100%;
             border: 1px solid #dbb0d2;
             border-radius: 20px;
@@ -662,16 +679,13 @@
             resize: vertical;
         }
 
-        .add-panel textarea,
-        .feedback-panel textarea {
+        .add-panel textarea {
             min-height: 130px;
             line-height: 1.7;
         }
 
         .add-panel input:focus,
-        .add-panel textarea:focus,
-        .feedback-panel input:focus,
-        .feedback-panel textarea:focus {
+        .add-panel textarea:focus {
             border-color: #c85a9e;
             box-shadow: 0 0 0 4px rgba(200, 90, 158, 0.12);
         }
@@ -702,12 +716,6 @@
             min-height: 1.2rem;
         }
 
-        .feedback-list {
-            margin-top: 1.6rem;
-            padding-top: 1.4rem;
-            border-top: 1px solid #e8cce0;
-        }
-
         .feedback-item {
             background: #ffffff;
             border: 1px solid #f0d6e8;
@@ -736,24 +744,93 @@
             word-break: break-word;
         }
 
-        .export-btn {
+        .entry-feedback-toggle {
             background: transparent;
             border: 1px solid #dbb0d2;
             border-radius: 40px;
-            padding: 0.5rem 1.4rem;
+            padding: 0.35rem 1rem;
             font-family: 'Inter', sans-serif;
-            font-size: 0.82rem;
-            font-weight: 400;
+            font-size: 0.78rem;
+            font-weight: 500;
             color: #7a4a6e;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-left: auto;
+            margin-top: 0.9rem;
         }
 
-        .export-btn:hover {
+        .entry-feedback-toggle:hover {
             background: #f0d6e8;
             border-color: #c85a9e;
+        }
+
+        .entry-feedback-panel {
+            display: none;
+            margin-top: 1rem;
+            background: #f8ecf5;
+            border: 1px solid #e8cce0;
+            border-radius: 20px;
+            padding: 1.1rem 1.3rem;
+        }
+
+        .entry-feedback-panel.active {
+            display: block;
+        }
+
+        .entry-feedback-panel input[type="text"],
+        .entry-feedback-panel textarea {
+            width: 100%;
+            border: 1px solid #dbb0d2;
+            border-radius: 16px;
+            padding: 0.6rem 0.9rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: #3d2a3a;
+            background: #ffffff;
+            outline: none;
+            transition: all 0.3s ease;
+            margin-top: 0.6rem;
+            margin-bottom: 0.8rem;
+            resize: vertical;
+        }
+
+        .entry-feedback-panel textarea {
+            min-height: 90px;
+            line-height: 1.6;
+        }
+
+        .entry-feedback-panel input:focus,
+        .entry-feedback-panel textarea:focus {
+            border-color: #c85a9e;
+            box-shadow: 0 0 0 4px rgba(200, 90, 158, 0.12);
+        }
+
+        .entry-feedback-submit {
+            background: #d474c0;
+            border: none;
+            border-radius: 40px;
+            padding: 0.45rem 1.3rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .entry-feedback-submit:hover {
+            background: #c25a9e;
             transform: translateY(-2px);
+        }
+
+        .entry-feedback-list {
+            margin-bottom: 0.8rem;
+        }
+
+        .entry-feedback-empty {
+            font-size: 0.85rem;
+            color: #b08aa6;
+            font-style: italic;
+            margin-bottom: 0.8rem;
         }
 
         @media (max-width: 550px) {
@@ -777,6 +854,9 @@
             .search-input {
                 width: 100%;
             }
+            .sort-select {
+                width: 100%;
+            }
             .search-btn,
             .clear-btn {
                 width: 100%;
@@ -798,11 +878,8 @@
                 width: 100%;
                 text-align: center;
             }
-            .export-btn {
-                margin-left: 0;
-            }
             .add-panel,
-            .feedback-panel {
+            .entry-feedback-panel {
                 padding: 1.2rem 1.2rem;
             }
         }
@@ -850,6 +927,11 @@
                         </div>
                     </div>
                 </div>
+                <select class="sort-select" id="sortModeSelect">
+                    <option value="newest">Newest first</option>
+                    <option value="oldest">Oldest first</option>
+                    <option value="feedback">Most feedback</option>
+                </select>
                 <button class="search-btn" id="searchButton">search</button>
                 <button class="clear-btn" id="clearButton">show all</button>
             </div>
@@ -857,8 +939,6 @@
 
         <div class="panel-toggle-row">
             <button type="button" id="toggleAddPanel">+ new entry</button>
-            <button type="button" id="toggleFeedbackPanel">feedback</button>
-            <button type="button" class="export-btn" id="exportBackupBtn">export backup</button>
         </div>
 
         <div class="add-panel" id="addPanel">
@@ -868,16 +948,6 @@
             <textarea id="newEntryText" placeholder="Write today's entry..."></textarea>
             <button type="button" class="panel-save-btn" id="saveEntryBtn">save entry</button>
             <div class="panel-status" id="addPanelStatus"></div>
-        </div>
-
-        <div class="feedback-panel" id="feedbackPanel">
-            <label for="feedbackName">Name (optional)</label>
-            <input type="text" id="feedbackName" placeholder="Anonymous">
-            <label for="feedbackText">Feedback</label>
-            <textarea id="feedbackText" placeholder="Leave a note for the author..."></textarea>
-            <button type="button" class="panel-save-btn" id="submitFeedbackBtn">submit feedback</button>
-            <div class="panel-status" id="feedbackPanelStatus"></div>
-            <div class="feedback-list" id="feedbackListEl"></div>
         </div>
 
         <div class="blog-content" id="entryContainer">
@@ -893,21 +963,29 @@
             const ITERATIONS = 600000;
 
             const encryptedEntries = {
-                '2026-08-15': { iv: 'aCQBZtED+Fo4vsO9', ct: 'tMFZHrVSnuDfc0j75eFCIPgCezN8cOXVl5w+TvBsiGY661Hbofflb31sFA0N0ziQAR3jgcXuJ/Amk345Iau/YX8NQKjf33hnGCiWI8r1QxDQADiFCfpACL5amvC3YvxyR4JvGvfVLjjE1wo75aFi1otQeklwxDyAl18BUYBwtg9GdLjH6zzZgwkf0/7EcSKvqNztHrayy/10vwWyAWse79WwTA0gQVpzxmWuvtM+IHZONZdbLBlCohQ7JRqiT9WvTqQVRrJeU5CTevTp+S6NdVl8A0qteB4M2zay838Jq1+AC4iLiJmiPjzQNOhQ69hX68gkvLKCaP/TFIguslS+GlUI/QLeHuC2AcbI6iR0T5QmCjir8V4NB6P5X7OcQEs3P3ie9gDq1BJkl3gZp8rDU0JseoT3a3pUX1kRBBY0cQexdrkD2aZNrIDdSXfTZfVGvSE2Q9E58M9jhwBMfg==' },
-                '2026-08-18': { iv: '+KVNd0grHIxDIJe7', ct: 'QVRjno+xZIrnHutw8bqoQ3mmkEmhvbLj6e48LkNUWf6t6TQRLeWIrhfPUcsOv1jB0HOqcZ3hXCPZV2NuXhJp7nz0H3If9nedkmUpwtnZ8JAok2Hk8CSx4sz9EbvKjvtK+t4QenS8XgS3sCMmfUHyDv/3b8PMhEIWmhkC+Ous+UZ3658uuoB3rjm3JN05IBCkTr3KKS6n2IBGwLnVsLTqewjqPuo1RqAhkQf2j8lLXguLCUqVp0QyFA2saOs1b7AYPBqVOb4aaL7K7rCl6vDtT020EVDx5GhSxTRBITZkkvagrL6EK6rSxVxI+ltbFUH0mQQKU9p7MkxevueVPCKRo6pDyxeKQibdQfGUq1ugcbB5W0LCtshCRS4HvvJetcteOA+ZIW2DtpbsrpMgynM3OHb/ATR4fBMb5VE8nx0oHF412ZR0Bgu6eVSav99ltw9dabuDw8Y7DV7UyF0=' },
-                '2026-08-22': { iv: 'dtj3o5nvdTa3Mlhv', ct: '6JS7t530xzFJZbCLRtVGaoFd0uMKSWoUQcsEvxkLDoVFUjfWNQqpwACh2BIXB1bbwhvtdhNd6Y1SYQtBvqU8ZRFl6fNq7OTDB3E0MEKPysXEbynem/qI34qIpoeNbTqNmkju6ensrKImILFnGwXZ0R0AqGK1kpTHPYY4p+Q/nCPhptVYzoR1Q48cfnzcJ6+lDCcI0L4J8iWU+LQ0EK9odXorVXfqR3Df98uvqUUogV1DDFIYRNwSuv73lbfLP0tt+Ws+2HxP0eKsvpTy5Ums3kbaj1+JrieOjmDacX4LUJsMxcNrPrS/lig1IrPfUIIJqn7EjcLF7fb9GpI/6rVH4SV7Pj8i7zCVdLGHBmyX8rWE2GHLGTSIZKvRQyJmCEmxiFqQ1+8dio6Wb3/LtAWOonmbiYiegjXBe9yI9SoC4OHZNg==' },
-                '2026-08-23': { iv: 'R7274p5S3/k4xsM5', ct: 'Cluepjs/sWG99+vO0LFD1Twdo0LittjZPtjQ7K92IvEyLyZBz9sxgwwldhmJ129zT0sja+ktXdKfIFBqGeRABoDq1IwNm1BsPXbOeNONyVP8nna9WtaISsj9uzUShUkQPY/YWtIagMqb8nk18Thu9sl4S1HSvBjEFauG+MWEosgrPixGfqbcvXsp8oJIzMfdhKH8Vat+b23bMr9L0gMFfc84DhiFqpP/opqm+e7OkPgEw0pKu1KCYn2sy6Gh+CXaWXq3sy4lhqJOH2wx7cslQaF/r66kANeP0eBEPBhcKLn4f0Z5O3QT68IggOugGPMuOGc/Jtke/TAupg/yccnqJ8ApbLSpiq+899zwKrpYwYqjKqhxMS+9mL2PWCNHOY8izqeC9VTkStynH8y5NaVDjZutYEOKHohLxXmcYSb+ozRkeHQPjvpSFueVINGE+eunZ+1l4Mnqiy388ne2kG7slqVhIaaP6O1h3Rxw4nO81eaUT25DqdAPU3EElL3064+hGVqT6h2n+z4hksIWqEmJR+6Sze9ClQOk21F518rHbb90rKKoYwrCzG9R0iRtc5N8KAwuICfYqpaUaD9qqlvnlF1k40NDKJdabUrIvN2eJ8lC+hdVI+8/S6lJzzCdjS2yCF2onoHYrrSBLmWYMVW8LGF8iClw9I8Rrg==' },
-                '2026-08-26': { iv: 'uYPJI8MyfMbtzCiV', ct: 'f2wCpPGLjboK2s5fuOltFNVo5U/BZQ0zmhdxuK01FIB1RMtjgDVbzZHjA9ziqsD1oFbb6Q85kwlQs0oXg9RGryPkQ37eUmkKl6wd0uQz4wmm0DLOW78NtHbL8uTql8Oz1CGnUzEZ5mvzRka2i/xDG2us3J9Ug57zUUUmlH+wD9nBZzEoxMdwUDY5wwn6cyn0tpzksBPMTmNtkSr29V9QkjrgthOqrJRS12SCW93CMyMO7YcFa3uyP0q299QY13jnKXkiD9An5ZdxcmjY95NI7qB6DT6eUC4qDlSLQnVXESRqGNbyH5bSRASt4oLFWoVDJMh1WZ+L0JyW62A=' },
-                '2026-08-27': { iv: 'JEr4do921mZteaXf', ct: 'f0q4oBcPcP633gUYclhWkaOTv0mbeZH6r4s0DB5uM2hqfnZhKquWhctLZrCgxindDPaxGFkj331b+KB2YC7EAWhvrNeTs8q/MGvFV0kWf1JeTCoDJ/T8MkMcz4hTfPyeemtd5CwjO8FiKgprdVfyyZmm6vv+CBXicVzJ+YnrnHZtK8PX8LXJCkC+Z19Hy5HF0FA4SHN8YN7xr83DJl8XIgPcOG2NONi+9f/vsRmWr09mkVTUpK58go/rWhlHan7DvjvBqfI4Yarztoxh7r3J1niG1QHQOD7Ww9X+ZmdCajQlg5RBOwyWtCM3xCFNEJkWMNS0cBW/um5DDV/SJg==' },
-                '2026-08-28': { iv: 'Iwa2rAUgGgIR25g8', ct: 'deQZfC2HBppd0bUCNeqqqMinWJkbcKByB7xk4pKKQ9ZyyxtHdWOOvWxrJ/zcZFW+A5IXbPvXGc/dFqAvYT8wQYSFfY6LQ7Rn3s6KnXuFdwvCAV7OkQPaRC+bwD6UmMzOFlvaJ1QpRUm3Lk9rUi6BSPDDwIViYvcAen+ErJDZunHKB7RN/YOuCZ0A73gogUI9zgCSAMuoIfdO4GJkAGf57BYh+NJUWn+yWnjaXl1xDjXSJgy1mjMlNs3fAUtPiTD2FNBFvg==' },
-                '2026-08-29': { iv: 'qRwrz8IimCTmjiQ/', ct: 'Ro7+6YAf6JAaGFS9xUEfni1fHl2P02nOwf14XcZXnA4fegFJWtfq9e8ZzSgE288oDi4vEiiW3FRrpjIOskl+JlSyR2lqnLSV5uamA9B9KqsJIYE2qAIIm5Wm8c4A+jAg5xml0wYMvKb2RdsOea3gl6f10o5F1uaoITQAjob+kMHy74WNBpCuhY2Uy+TXipypVYvv3ULBOIzXcw4dNnwmFsgzi9VaN0/SDnpsZp4moKU1Z9Lna4A+m5WOMsTZclhJjame36LIlwx6aziTELXfHCWDVCLNiHZmITr1gv/Rq/2xXgh6aqOEx5SAXaNO+hghdg==' }
+                '2026-08-15': { iv: 'YsYGd9gnz8oRw48R', ct: 'c+3eNZn16D16WZ2+qHXTGBdQYOOiLSoR0Wza/WqQn5q12dVdGs1dPn0GVJ6JKz0/VeiUCI7Rj5CZCsMNrEY7eJw4mNpR+H34IXsUBCmomTcG6TrfYMT8QZfDzkah2nEsbS360xTxx/MZ5ilAuYhtRD4DnH6XadFtOjVt2THfoRHGB05GhvkKMe/cFbv4wNK6PBrjxw2yBRc2R1CfQxW3M+lZHjTiuAMScxv2SeZwfUP6AgCHN8wxYE8bc9kodhQrn3xzOKTE/Og1u4jJz9aTq4rkDN4pUmzVdaF2HgzLBIVYONl/t+iLX0eTBIm/O/LaPnx6QHj9hNSlrcYubiaTvKvjtsPEsB70BYHVel1bcrvw6T3JABLvyMBK+ZqzXaMiOce1AnYWowWnC+Txt7O39HOiUTybchvLwiYut6Yc025ijdyqIfAKbLm+0N0Vnxdb5MVLDF+Hwu3jvuVo+w==' },
+                '2026-08-18': { iv: 'YD6MOPZw4q3gjqsW', ct: 'xFnd6RKTy1z2DruNxYQoftD2gccwKHEIFq/cYOxDCIlTwJYEwlKKQbxvz4LDyDlf9dk2Y8N+0IbL4T2ff21Nc4uJwfwtkyN9+IshcoZ9xiUg/AHK5tA5jLv3e73lXuYXa4pALEyynzg0wkTzFTqFwjO1NWGVwv4bW5Ir1JFxOCDh8p6HI87rJJafIKfAtO7UIaovooUBMKrCIlhpNPVKksmbLxui3iBz7CwXcjCt8IIPYENq600DIuqQtaWEc8J/wIUDtkdGRa/mJvqg+KI7bCgzkevdi6/oZtNJkS4MhlHhPZ0paOz+/ocMMi88f8oz7zdOYxfnbPmI6SR0+/Z+C9uMJMwxbWpd52CA6XjDND+1PUVpZiltyJxEGhsHYV4daKB/nBLiE4XNOMoqTCffOMf67LUcTqBl8yhN3OfTBJZuWkQbYq5DXSj2O1uKlpSUWXk2jePwCYZbWG4=' },
+                '2026-08-22': { iv: 'Ci72CaxcK3P6gWW/', ct: 'vDVhZSUBDIKiHhldzbC4ODpdsEnlxcuUgpHBCP6Jx+tGA4f4XMOtz6bQaC/fvj1e7O4c8LjbABGy0Wku3K33TIOAwMXqJzfVqLr00r/ltPx8XM2KE1NQpMg+spDzkDTCjiNZw2HPPzwwcoFPpSojPMIzMnh/OovakV7k31E/8Wy35nFcXGwLshfIiOMml8VKdomw383i4qdVn7MQ6NI1NqFMtTtRn4ly1mBjmeu99V9dl2bdyc9qhG7vK8jMUcTsp4vvM7rP1JpHY2pC37CK1n/X/Foef+sFNRDjDIDaUDpCPEiNizGHM3XNlGAyzz0DdtGaImdo/olhH7K4x/tlmr1zEyRMB/Kwr+IppPRHaRi4MV6rPTvasPHKZVFo9gSpGJOqejvufU2WnfGXKhB3jAnckbYMfJ6huCLaDLRVS2EFeg==' },
+                '2026-08-23': { iv: 'uYUzw0GmLMluFHtX', ct: '6tTM5vo0OohZwp7Csux+eWydJ4hdnKKsATd0mM4v3fg/dc+H8N2H3mT94LY3bC58VR9et5Zr2981UUaNTh90Z42cJELksk/ql144NUItTgKC69G77Xvu7oQAt3y5blhaiUbeshHNEaFajytjU2ciU7v9hlB4WJsdS/Vc7aGf1tQVG1hZogcNsLvoERamCYWYntZlupsa+8mKCPvcIOMSV0lp2d7abl53be8z3YS1TSwElMurt01aBj6yPBNMOFeT2sA1zf2O47JbgsoZIjdd7vPANg71EW6Vw5cgWZH3+BKxfRemeYjSWSfnXNO2/BrRYSmyUsCQFiLWdHopWNiBSZZZ85zHJ39eZZvVK692AVcWxrgT5BPnGtCVZGMedRkmOEBUB33fU4EFU/cqVPT1cgdKOaWoNw/0t+3mY2BA9OLahlO7Otxyr+Rt3u1W9I4/HKIePcEAjz5zW7mfiLxpaKn81DHc42ob3Cw4/0/EdkWXp3rnzaqMTMsYUh8YCipOMMBRFhXHDNWpOgVb2VydPfTlX9C0WJpuLyGECW6GsNoNBYvfvJxmcfQQkrBtmgMcA7l6P9X9/pFeQehOBn0pNRQt273f2U86TxG9DlurBvHsPFsx7/OV4Rr7ygvBfkGkyALZHQmVQajAip/bK52f8rSzYs56S96Z8Q==' },
+                '2026-08-26': { iv: '3mBBYAomnUuZ0+Bm', ct: 'mX2MuaOf6/OyWkqRzATlEXpdhw4uehSZylv/VufT2fzbAQRrl9gJIuOwkv04ufT0s/VpSK2AdhvuzGqCBMQnyl1xz9uCSIzqcwMY2H7Gjeri0uQMRfgUwwdI+x4US6i/LAgeFJJBjbl74Bwp31FmdRgUcmzFPM0a5yD4fK0POpUElLC1Oy2kEiwMh6thAvpRbdiXqcJIsEpdg2NTLSAOfV+9hBc8ngf/WrHnilthND+FbBfso6UmZFsbeDr6oG0sYJGY2/cWsrMHr+veuWTxcoLx2C6rzA4Lswvt7oZPTDesAcFK2Fy4a+5oU8P/DxXBqTU93EQrSL4Htxg=' },
+                '2026-08-27': { iv: 'W7Z0QWUpy00jwjnh', ct: 'gZ+o4zJH0q7QmJzidsoDKJOwGgcFq7dEbevYVrihnx/0qxgDx5afTWwzbumbTWVmQsMDLqqbcrttpKFJpzdj8ur2SlLx22ol1JqgVX/rHuqhBADTHsgw9urUeQW8A0M2AHyri2pBIM7MKsLgLQYZ/zVWUPbSevGSbQpeSwM7yFEz4p0nKFbpAIJolKSy/UTtaT22/QLsccdD3RhyqUzISDOPSyjdX5H5VQkntTFIIAbAy3Gm5fVSbOdtG/MOskJMu/DydIn5eyXPvBs4jX/imQ2516daP+tgQJp3gkpRnzOllL3+8XD5Do8esFxIbhZYA2sZIKUc2r7IHalg8Q==' },
+                '2026-08-28': { iv: '3MhsTUJtMjodmcDX', ct: 'aQJHUxg2xYgxqKy9dkWT5e9TtVEyxxrdSnmIB1//+PYftVqx9P1I69nzJPEWARoeLMhd+3lpr2LPzQtc7EJgjwVPJ4udjScf0au8oRUWMPuvwuaCS+YAoeCeC59Zg9DhTRbl7EJsRVWQdx21QOEqMT/aSuBxQG+FVjoywH8KGQmXfnxwmNWdlngspq+K2yqZ0Lj4qYUCHdRpF/qTiHWdHADnbmw6J8P0sd3sZXvMCi25PbXH6i1tZKeKQb/8iudNzrhL1A==' },
+                '2026-08-29': { iv: 'AVfHRHLWBucCab3t', ct: 's9x11ZLzXvlF3FNuFkqdZ+8a+vfdlOuXB8bO7M4WilPk+YC8RAl3Mx8IsfI5XxAZJQct35tmNEPOP14pWaTufnP0/zFNXTf99eK0yuwYH/2IFhBJZ+YnzezqRHY90rj/0O6R92C1Y79Sqp7wD3/FL2nedrzrd+tOiU74QhS0EbmfKHOx/+SaQXl7f6GOmn2oc1TridC/DsDrKceCvi+L+PHp3ag+tol8q2wdNxbZdf4NQnCCFFqn1IRvpcT0CH/XEyuIP52uz7WmT7xYyQjShXdG0GIVjDrNA+M7cVR6jl6LoMU2PAD6Nvk8FeRuFQuc4g==' },
+                '2026-09-02': { iv: 'RK6tXdaVFVeLvTw7', ct: '6c5qF0K3k6s/1dLBAEgkjYgmol1anAgkouDCsWnXMV0mSwau+M3CHh85tDLPdJpJxpRS625gmJbaSOLJc4DK7OEnZI5fGtQvqDMIgw6NgLrMJERY69MOolqPcTBL7rMDGJeHCdlEhgcM/O2aoFrj3K4/3b8IZwLkN0lFw5lMvQbjWJqLhRvOV/7a40QF2qLvpeiz152fd5ZMC9npnrK5sULPLgA+L0y4U6ryRldDG6+w0cU5fsM7pnPwecjlG/iFm1VOq+WLM7zYYZdZ' },
+                '2026-09-03': { iv: 'BZlZEm2kd0HdUj9z', ct: 'DzKTHaPuX4tz0GY+nBwIp1R5/FQO5mQTM1g0hQEa984v0EwAUgIVa/3V7Y5TaQmZlok24lDdHJJyHI5Cj0LbArjfxZatbQK6KJ9VxOMeKVWqsZD2NZqessrUjq85ePKYFGVr/61+ngBlctcNpgG41+HuhGNzcAp2uzgMOkcqpNgbn9zHl/KElk9HZ+iVXboAOL14Nxe/mtyAC36cMfVTwGylCN7ofZw5Oh/5uqtY7Mnli3cAoN0mc5FvM1W3BtLZxLdw6o9CJg==' },
+                '2026-09-04': { iv: 'QEQJOPeGrmiFC3AT', ct: '2ebTJEl3e+5kHxCzHrzyJYrm5exSwr1XIK4cEfi1xo/zpfNRK6H43ExrWUOXQIYqm4jn4QHe3G6UiuF6MWsROXfry99piJcEfk7z40LKd0Njxs7HXeGnFeTOitrMq1dQu5c5Ytrg2pQpSihBymT6CbONQP68NPmyJY62h/q0XbjDHuq29t8LeRYlBEjuwyd1G/xl2EhLg/PrDCfLT5mf2Iw1hW5pjWw4GaL9O+HaJ4PVGU8Cg7rugkTQsY8493q29ZFrrDr8+z0uRNypNmKITXqeaAVnntxO7oitoBcariykcDFLZyvkonACvLu+' },
+                '2026-09-05': { iv: 'hTgl8E6CIr02Q5ci', ct: '40TSvG6ukmUZbX/8MeJysg9HZ50rchX6vJ2JKJ2znEU+xetOSN7Z8w5m6np1ne2U5n0Xn5K8Iw/COGz8flNG+FhKW9q+32/WnhWyHqVCgPSO4JoJGj4rRIlPUUjbQp3SteesTZo1Vkx9KYCz9i0iT6Q+QZwy+qCH1J04ViZm8DFRniQ/fWyIqJ7ecum+1p8XFo6Ow3ne5RTxxsqqBrX9AmLHxw9K/TM2az5qD5LCx1R+bZBGk2gOJkpFIelchlTGjk5iyjM+gqPBKEx1y2BjCBmrxjr0lqGyVE//ZSHTSWT0mQ==' }
             };
 
             const encryptedFeedback = [];
+            const LOCAL_ENTRIES_KEY = 'protectedJournalEntriesV1';
+            const LOCAL_FEEDBACK_KEY = 'protectedJournalFeedbackV1';
 
             let entries = {};
             let feedbackItems = [];
+            let openFeedbackDate = null;
             let cryptoKey = null;
+            let sortMode = 'newest';
 
             function base64ToBuffer(b64) {
                 const binary = atob(b64);
@@ -916,6 +994,15 @@
                     bytes[i] = binary.charCodeAt(i);
                 }
                 return bytes.buffer;
+            }
+
+            function bufferToBase64(buf) {
+                const bytes = new Uint8Array(buf);
+                let binary = '';
+                for (let i = 0; i < bytes.byteLength; i++) {
+                    binary += String.fromCharCode(bytes[i]);
+                }
+                return btoa(binary);
             }
 
             async function deriveKey(password) {
@@ -930,15 +1017,6 @@
                     false,
                     ['encrypt', 'decrypt']
                 );
-            }
-
-            function bufferToBase64(buf) {
-                const bytes = new Uint8Array(buf);
-                let binary = '';
-                for (let i = 0; i < bytes.byteLength; i++) {
-                    binary += String.fromCharCode(bytes[i]);
-                }
-                return btoa(binary);
             }
 
             function escapeHtml(str) {
@@ -971,11 +1049,51 @@
                 return decoder.decode(plainBuf);
             }
 
+            function getLocalEntries() {
+                try {
+                    return JSON.parse(localStorage.getItem(LOCAL_ENTRIES_KEY) || '{}');
+                } catch (err) {
+                    return {};
+                }
+            }
+
+            function setLocalEntries(obj) {
+                try {
+                    localStorage.setItem(LOCAL_ENTRIES_KEY, JSON.stringify(obj));
+                } catch (err) {
+                    return;
+                }
+            }
+
+            function getLocalFeedback() {
+                try {
+                    return JSON.parse(localStorage.getItem(LOCAL_FEEDBACK_KEY) || '[]');
+                } catch (err) {
+                    return [];
+                }
+            }
+
+            function setLocalFeedback(arr) {
+                try {
+                    localStorage.setItem(LOCAL_FEEDBACK_KEY, JSON.stringify(arr));
+                } catch (err) {
+                    return;
+                }
+            }
+
             async function decryptAllEntries(key) {
                 const result = {};
                 for (const date in encryptedEntries) {
                     const { iv, ct } = encryptedEntries[date];
                     result[date] = await decryptText(key, iv, ct);
+                }
+                const local = getLocalEntries();
+                for (const date in local) {
+                    try {
+                        result[date] = await decryptText(key, local[date].iv, local[date].ct);
+                    } catch (err) {
+                        continue;
+                    }
                 }
                 return result;
             }
@@ -985,6 +1103,14 @@
                 for (const item of encryptedFeedback) {
                     const raw = await decryptText(key, item.iv, item.ct);
                     try {
+                        result.push(JSON.parse(raw));
+                    } catch (err) {
+                        continue;
+                    }
+                }
+                for (const item of getLocalFeedback()) {
+                    try {
+                        const raw = await decryptText(key, item.iv, item.ct);
                         result.push(JSON.parse(raw));
                     } catch (err) {
                         continue;
@@ -1001,6 +1127,7 @@
             const searchInput = document.getElementById('dateSearchInput');
             const searchBtn = document.getElementById('searchButton');
             const clearBtn = document.getElementById('clearButton');
+            const sortModeSelect = document.getElementById('sortModeSelect');
             const entriesList = document.getElementById('entriesList');
             const calendarToggle = document.getElementById('calendarToggle');
             const calendarPopup = document.getElementById('calendarPopup');
@@ -1010,19 +1137,11 @@
             const nextMonthBtn = document.getElementById('nextMonth');
 
             const toggleAddPanelBtn = document.getElementById('toggleAddPanel');
-            const toggleFeedbackPanelBtn = document.getElementById('toggleFeedbackPanel');
             const addPanel = document.getElementById('addPanel');
-            const feedbackPanel = document.getElementById('feedbackPanel');
             const newEntryDate = document.getElementById('newEntryDate');
             const newEntryText = document.getElementById('newEntryText');
             const saveEntryBtn = document.getElementById('saveEntryBtn');
             const addPanelStatus = document.getElementById('addPanelStatus');
-            const feedbackName = document.getElementById('feedbackName');
-            const feedbackText = document.getElementById('feedbackText');
-            const submitFeedbackBtn = document.getElementById('submitFeedbackBtn');
-            const feedbackPanelStatus = document.getElementById('feedbackPanelStatus');
-            const feedbackListEl = document.getElementById('feedbackListEl');
-            const exportBackupBtn = document.getElementById('exportBackupBtn');
 
             const now0 = new Date();
             let currentViewDate = new Date(now0.getFullYear(), now0.getMonth(), 1);
@@ -1042,7 +1161,6 @@
                     searchInput.value = todayStr;
                     newEntryDate.value = todayStr;
                     renderEntries(todayStr);
-                    renderFeedback();
                     buildCalendar(currentViewDate.getFullYear(), currentViewDate.getMonth());
                     setTimeout(() => searchInput.focus(), 300);
                 } catch (err) {
@@ -1064,6 +1182,108 @@
                 }
             });
 
+            function buildEntryItemHtml(date, text) {
+                const fbForDate = feedbackItems
+                    .filter(item => item.date === date)
+                    .sort((a, b) => (a.ts < b.ts ? 1 : -1));
+
+                let fbListHtml = '';
+                if (fbForDate.length === 0) {
+                    fbListHtml = `<div class="entry-feedback-empty">no feedback yet</div>`;
+                } else {
+                    fbForDate.forEach(item => {
+                        const when = new Date(item.ts).toLocaleString();
+                        fbListHtml += `
+                            <div class="feedback-item">
+                                <div class="feedback-meta">${escapeHtml(item.name || 'Anonymous')} · ${escapeHtml(when)}</div>
+                                <div class="feedback-text">${escapeHtml(item.text)}</div>
+                            </div>
+                        `;
+                    });
+                }
+
+                const isOpen = openFeedbackDate === date;
+                const countLabel = fbForDate.length ? ` (${fbForDate.length})` : '';
+
+                return `
+                    <div class="entry-item">
+                        <span class="entry-date">${escapeHtml(date)}</span>
+                        <div class="entry-text">${escapeHtml(text)}</div>
+                        <button type="button" class="entry-feedback-toggle" data-date="${escapeHtml(date)}">💬 feedback${countLabel}</button>
+                        <div class="entry-feedback-panel ${isOpen ? 'active' : ''}" data-date="${escapeHtml(date)}">
+                            <div class="entry-feedback-list">${fbListHtml}</div>
+                            <input type="text" class="entry-feedback-name" placeholder="Name (optional)">
+                            <textarea class="entry-feedback-text" placeholder="Leave a note about this entry..."></textarea>
+                            <button type="button" class="entry-feedback-submit" data-date="${escapeHtml(date)}">submit feedback</button>
+                            <div class="panel-status entry-feedback-status"></div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            function attachEntryFeedbackHandlers() {
+                entriesList.querySelectorAll('.entry-feedback-toggle').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const date = this.dataset.date;
+                        openFeedbackDate = (openFeedbackDate === date) ? null : date;
+                        entriesList.querySelectorAll('.entry-feedback-panel').forEach(panel => {
+                            panel.classList.toggle('active', panel.dataset.date === openFeedbackDate);
+                        });
+                    });
+                });
+
+                entriesList.querySelectorAll('.entry-feedback-submit').forEach(btn => {
+                    btn.addEventListener('click', async function() {
+                        const date = this.dataset.date;
+                        const container = this.closest('.entry-feedback-panel');
+                        const nameInput = container.querySelector('.entry-feedback-name');
+                        const textInput = container.querySelector('.entry-feedback-text');
+                        const statusEl = container.querySelector('.entry-feedback-status');
+                        const text = textInput.value.trim();
+                        if (!text) {
+                            statusEl.textContent = 'write something first';
+                            return;
+                        }
+                        const name = nameInput.value.trim() || 'Anonymous';
+                        const item = { date, name, text, ts: new Date().toISOString() };
+                        const cipher = await encryptText(cryptoKey, JSON.stringify(item));
+                        const local = getLocalFeedback();
+                        local.push(cipher);
+                        setLocalFeedback(local);
+                        feedbackItems.push(item);
+                        openFeedbackDate = date;
+                        renderEntries(searchInput.value);
+                    });
+                });
+            }
+
+            function renderEntryList(dates) {
+                let html = '';
+                dates.forEach(date => {
+                    html += buildEntryItemHtml(date, entries[date]);
+                });
+                entriesList.innerHTML = html;
+                attachEntryFeedbackHandlers();
+            }
+
+            function getSortedDates() {
+                const dates = Object.keys(entries);
+                if (sortMode === 'oldest') {
+                    return dates.sort();
+                }
+                if (sortMode === 'feedback') {
+                    return dates.sort((a, b) => {
+                        const countA = feedbackItems.filter(item => item.date === a).length;
+                        const countB = feedbackItems.filter(item => item.date === b).length;
+                        if (countB !== countA) {
+                            return countB - countA;
+                        }
+                        return b.localeCompare(a);
+                    });
+                }
+                return dates.sort().reverse();
+            }
+
             function renderEntries(query) {
                 if (!query || query.trim() === '') {
                     showAllEntries();
@@ -1071,7 +1291,7 @@
                 }
 
                 const trimmed = query.trim();
-                const sortedDates = Object.keys(entries).sort().reverse();
+                const sortedDates = getSortedDates();
 
                 let filteredDates = [];
 
@@ -1090,39 +1310,17 @@
                     return;
                 }
 
-                let html = '';
-                filteredDates.forEach(date => {
-                    const text = entries[date];
-                    html += `
-                        <div class="entry-item">
-                            <span class="entry-date">${escapeHtml(date)}</span>
-                            <div class="entry-text">${escapeHtml(text)}</div>
-                        </div>
-                    `;
-                });
-
-                entriesList.innerHTML = html;
+                renderEntryList(filteredDates);
             }
 
             function showAllEntries() {
-                const sortedDates = Object.keys(entries).sort().reverse();
+                const sortedDates = getSortedDates();
                 if (sortedDates.length === 0) {
                     entriesList.innerHTML = `<div class="empty-state">📖 no entries yet. start writing.</div>`;
                     return;
                 }
 
-                let html = '';
-                sortedDates.forEach(date => {
-                    const text = entries[date];
-                    html += `
-                        <div class="entry-item">
-                            <span class="entry-date">${escapeHtml(date)}</span>
-                            <div class="entry-text">${escapeHtml(text)}</div>
-                        </div>
-                    `;
-                });
-
-                entriesList.innerHTML = html;
+                renderEntryList(sortedDates);
             }
 
             function buildCalendar(year, month) {
@@ -1245,57 +1443,21 @@
                 showAllEntries();
             });
 
-            const sessionEntryCipher = {};
-            const sessionFeedbackCipher = [];
-
-            function closePanels() {
-                addPanel.classList.remove('active');
-                feedbackPanel.classList.remove('active');
-                toggleAddPanelBtn.classList.remove('active');
-                toggleFeedbackPanelBtn.classList.remove('active');
-            }
+            sortModeSelect.addEventListener('change', function() {
+                sortMode = this.value;
+                renderEntries(searchInput.value);
+            });
 
             toggleAddPanelBtn.addEventListener('click', function() {
                 const willOpen = !addPanel.classList.contains('active');
-                closePanels();
+                addPanel.classList.toggle('active', willOpen);
+                toggleAddPanelBtn.classList.toggle('active', willOpen);
                 if (willOpen) {
-                    addPanel.classList.add('active');
-                    toggleAddPanelBtn.classList.add('active');
                     newEntryText.focus();
                 }
             });
 
-            toggleFeedbackPanelBtn.addEventListener('click', function() {
-                const willOpen = !feedbackPanel.classList.contains('active');
-                closePanels();
-                if (willOpen) {
-                    feedbackPanel.classList.add('active');
-                    toggleFeedbackPanelBtn.classList.add('active');
-                    feedbackText.focus();
-                }
-            });
-
-            function renderFeedback() {
-                if (!feedbackItems.length) {
-                    feedbackListEl.innerHTML = `<div class="empty-state">no feedback yet</div>`;
-                    return;
-                }
-                const sorted = feedbackItems.slice().sort((a, b) => (a.ts < b.ts ? 1 : -1));
-                let html = '';
-                sorted.forEach(item => {
-                    const when = new Date(item.ts).toLocaleString();
-                    html += `
-                        <div class="feedback-item">
-                            <div class="feedback-meta">${escapeHtml(item.name || 'Anonymous')} · ${escapeHtml(when)}</div>
-                            <div class="feedback-text">${escapeHtml(item.text)}</div>
-                        </div>
-                    `;
-                });
-                feedbackListEl.innerHTML = html;
-            }
-
             saveEntryBtn.addEventListener('click', async function() {
-                if (!cryptoKey) return;
                 const date = newEntryDate.value;
                 const text = newEntryText.value.trim();
                 if (!date || !text) {
@@ -1303,53 +1465,16 @@
                     return;
                 }
                 const cipher = await encryptText(cryptoKey, text);
-                sessionEntryCipher[date] = cipher;
+                const local = getLocalEntries();
+                local[date] = cipher;
+                setLocalEntries(local);
                 entries[date] = text;
                 newEntryText.value = '';
-                addPanelStatus.textContent = 'saved for this session — use export backup to keep it permanently';
+                addPanelStatus.textContent = 'saved permanently';
                 selectedDate = date;
                 searchInput.value = date;
                 renderEntries(date);
                 buildCalendar(currentViewDate.getFullYear(), currentViewDate.getMonth());
-            });
-
-            submitFeedbackBtn.addEventListener('click', async function() {
-                if (!cryptoKey) return;
-                const text = feedbackText.value.trim();
-                if (!text) {
-                    feedbackPanelStatus.textContent = 'write something first';
-                    return;
-                }
-                const name = feedbackName.value.trim() || 'Anonymous';
-                const item = { name, text, ts: new Date().toISOString() };
-                const cipher = await encryptText(cryptoKey, JSON.stringify(item));
-                sessionFeedbackCipher.push(cipher);
-                feedbackItems.push(item);
-                feedbackText.value = '';
-                feedbackName.value = '';
-                feedbackPanelStatus.textContent = 'feedback saved for this session — use export backup to keep it permanently';
-                renderFeedback();
-            });
-
-            exportBackupBtn.addEventListener('click', function() {
-                const combinedEntries = Object.assign({}, encryptedEntries, sessionEntryCipher);
-                const combinedFeedback = encryptedFeedback.concat(sessionFeedbackCipher);
-                const backup = {
-                    salt: SALT_B64,
-                    iterations: ITERATIONS,
-                    entries: combinedEntries,
-                    feedback: combinedFeedback
-                };
-                const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                const stamp = new Date().toISOString().slice(0, 10);
-                a.href = url;
-                a.download = `journal-backup-${stamp}.json`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
             });
 
             passwordInput.focus();
